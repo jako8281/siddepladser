@@ -8,8 +8,14 @@
       background: white;
       font-family: Arial, sans-serif;
       display: flex;
-      justify-content: center;
-      margin-top: 40px;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 30px;
+    }
+
+    h1 {
+      margin-bottom: 25px;
+      letter-spacing: 4px;
     }
 
     .container {
@@ -26,6 +32,7 @@
 
     .row-5 { grid-template-columns: repeat(5, 120px); }
     .row-4 { grid-template-columns: repeat(4, 120px); }
+    .row-3 { grid-template-columns: repeat(3, 120px); }
 
     .seat {
       border: 1px solid #333;
@@ -37,6 +44,8 @@
 </head>
 <body>
 
+<h1>TAVLE</h1>
+
 <div class="container" id="seating"></div>
 
 <script>
@@ -44,10 +53,10 @@
     "Anton","Celina","Ella B.","Ella E.","Elliot","Enzo",
     "Freja","Freya","Ida-Marie","Johannes","Kira","Konrad",
     "Lili","Lyon","Margrethe","Nanna","Nicoline","Nohr",
-    "Roberta","Sander","Sarah","Walter"
+    "Roberta","Sander","Walter"
   ];
 
-  // ISO uge beregning, men skifter først fredag kl. 07:00 (dansk tid)
+  // ISO uge – skifter fredag kl. 07:00 dansk tid
   function getSeatWeek() {
     const now = new Date();
     const friday = new Date(now);
@@ -57,7 +66,6 @@
     return friday.toISOString().slice(0, 10);
   }
 
-  // Seeded shuffle så pladser er faste hele ugen
   function shuffle(array, seed) {
     let m = array.length, t, i;
     function random() {
@@ -74,19 +82,28 @@
   }
 
   const weekSeed = getSeatWeek().replace(/-/g, "");
-  const shuffled = shuffle([...names], parseInt(weekSeed));
+  let shuffled = shuffle([...names], parseInt(weekSeed));
 
-  const layout = [5,5,4,4,4];
+  const layout = [5,5,5,4,3];
   const container = document.getElementById("seating");
 
   let index = 0;
-  layout.forEach(size => {
+
+  layout.forEach((size, rowIndex) => {
     const row = document.createElement("div");
     row.className = "row row-" + size;
+
     for (let i = 0; i < size; i++) {
       const seat = document.createElement("div");
       seat.className = "seat";
-      seat.textContent = shuffled[index++];
+
+      // Fast plads: Sarah i række 1, plads 5
+      if (rowIndex === 0 && i === 4) {
+        seat.textContent = "Sarah";
+      } else {
+        seat.textContent = shuffled[index++];
+      }
+
       row.appendChild(seat);
     }
     container.appendChild(row);
