@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <title>Siddepladser</title>
+  <style>
+    body {
+      background: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
+    }
+
+    .container {
+      display: grid;
+      grid-template-rows: repeat(5, auto);
+      gap: 20px;
+    }
+
+    .row {
+      display: grid;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .row-5 { grid-template-columns: repeat(5, 120px); }
+    .row-4 { grid-template-columns: repeat(4, 120px); }
+
+    .seat {
+      border: 1px solid #333;
+      padding: 18px;
+      text-align: center;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="seating"></div>
+
+<script>
+  const names = [
+    "Anton","Celina","Ella B.","Ella E.","Elliot","Enzo",
+    "Freja","Freya","Ida-Marie","Johannes","Kira","Konrad",
+    "Lili","Lyon","Margrethe","Nanna","Nicoline","Nohr",
+    "Roberta","Sander","Sarah","Walter"
+  ];
+
+  // ISO uge beregning, men skifter først fredag kl. 07:00 (dansk tid)
+  function getSeatWeek() {
+    const now = new Date();
+    const friday = new Date(now);
+    friday.setDate(now.getDate() - ((now.getDay() + 6) % 7) + 4);
+    friday.setHours(7, 0, 0, 0);
+    if (now < friday) friday.setDate(friday.getDate() - 7);
+    return friday.toISOString().slice(0, 10);
+  }
+
+  // Seeded shuffle så pladser er faste hele ugen
+  function shuffle(array, seed) {
+    let m = array.length, t, i;
+    function random() {
+      seed = (seed * 9301 + 49297) % 233280;
+      return seed / 233280;
+    }
+    while (m) {
+      i = Math.floor(random() * m--);
+      t = array[m];
+      array[m] = array[i];
+      array[i] = t;
+    }
+    return array;
+  }
+
+  const weekSeed = getSeatWeek().replace(/-/g, "");
+  const shuffled = shuffle([...names], parseInt(weekSeed));
+
+  const layout = [5,5,4,4,4];
+  const container = document.getElementById("seating");
+
+  let index = 0;
+  layout.forEach(size => {
+    const row = document.createElement("div");
+    row.className = "row row-" + size;
+    for (let i = 0; i < size; i++) {
+      const seat = document.createElement("div");
+      seat.className = "seat";
+      seat.textContent = shuffled[index++];
+      row.appendChild(seat);
+    }
+    container.appendChild(row);
+  });
+</script>
+
+</body>
+</html>
