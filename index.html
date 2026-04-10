@@ -84,10 +84,22 @@
   const weekSeed = getSeatWeek().replace(/-/g, "");
   let shuffled = shuffle([...names], parseInt(weekSeed));
 
+  // Opret liste over farver (3 af hver)
+  const colors = ['#800080', '#0000FF', '#FFFF00', '#FF0000', '#008000', '#808080', '#FFC0CB'];
+  let seatColors = [];
+  colors.forEach(color => {
+    for (let i = 0; i < 3; i++) {
+      seatColors.push(color);
+    }
+  });
+  // Bland farverne med samme seed
+  seatColors = shuffle([...seatColors], parseInt(weekSeed));
+
   const layout = [5,5,5,4,3];
   const container = document.getElementById("seating");
 
   let index = 0;
+  let colorIndex = 0;
 
   layout.forEach((size, rowIndex) => {
     const row = document.createElement("div");
@@ -103,6 +115,9 @@
       } else {
         seat.textContent = shuffled[index++];
       }
+
+      // Tilføj farve
+      seat.style.backgroundColor = seatColors[colorIndex++];
 
       row.appendChild(seat);
     }
