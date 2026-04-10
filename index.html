@@ -124,7 +124,8 @@
         const seat = document.createElement("div");
         seat.className = "seat";
 
-        const colorGroup = Math.floor(seatIndex / 3);
+        const pair = pairNumbers[seatIndex] || "";
+        const colorGroup = pair - 1;
         seat.style.background = colors[colorGroup % colors.length];
 
         let label = "";
@@ -135,7 +136,6 @@
           label = shuffled[nameIndex++];
         }
 
-        const pair = pairNumbers[seatIndex] || "";
         seat.innerHTML = `<strong>${label}</strong><br><small>${pair}</small>`;
 
         row.appendChild(seat);
