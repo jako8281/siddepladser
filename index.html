@@ -35,10 +35,30 @@
     .row-3 { grid-template-columns: repeat(3, 120px); }
 
     .seat {
+      position: relative;
       border: 1px solid #333;
       padding: 18px;
       text-align: center;
       font-size: 16px;
+      height: 70px;
+      box-sizing: border-box;
+    }
+
+    /* Sort bælte */
+    .belt {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 24px;
+      background: black;
+      transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: white;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -84,7 +104,7 @@
   const weekSeed = getSeatWeek().replace(/-/g, "");
   let shuffled = shuffle([...names], parseInt(weekSeed));
 
-  // FASTE FARVER (3 af hver) – IKKE tilfældige
+  // Farver (3 af hver) – som i dit eksempel
   const colors = ['#0000FF', '#FFFF00', '#FF0000', '#008000', '#808080', '#FFC0CB'];
   let seatColors = [];
   colors.forEach(color => {
@@ -92,12 +112,20 @@
       seatColors.push(color);
     }
   });
+  seatColors = shuffle([...seatColors], parseInt(weekSeed));
 
-  const layout = [5, 5, 5, 4, 3];
+  // TAL TIL BÆLTERNE
+  const beltNumbers = [
+    1,2,3,4,5,6,7,8,9,10,11,
+    1,2,3,4,5,6,7,8,9,10,11
+  ];
+
+  const layout = [5,5,5,4,3];
   const container = document.getElementById("seating");
 
   let index = 0;
   let colorIndex = 0;
+  let beltIndex = 0;
 
   layout.forEach((size, rowIndex) => {
     const row = document.createElement("div");
@@ -107,16 +135,22 @@
       const seat = document.createElement("div");
       seat.className = "seat";
 
-      // Fast plads: Sarah i række 1, plads 5
+      // Navn
       if (rowIndex === 0 && i === 4) {
         seat.textContent = "Sarah";
       } else {
         seat.textContent = shuffled[index++];
       }
 
-      // Fast farve pr. plads
+      // Farve
       seat.style.backgroundColor = seatColors[colorIndex++];
 
+      // Sort bælte med tal
+      const belt = document.createElement("div");
+      belt.className = "belt";
+      belt.textContent = beltNumbers[beltIndex++];
+
+      seat.appendChild(belt);
       row.appendChild(seat);
     }
     container.appendChild(row);
