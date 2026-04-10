@@ -37,17 +37,23 @@
     .seat {
       position: relative;
       border: 1px solid #333;
-      padding: 18px;
-      text-align: center;
-      font-size: 16px;
-      height: 70px;
+      height: 80px;
       box-sizing: border-box;
     }
 
-    /* Sort bælte */
+    /* Navn øverst */
+    .name {
+      position: absolute;
+      top: 6px;
+      width: 100%;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    /* Sort bælte lidt længere nede */
     .belt {
       position: absolute;
-      top: 50%;
+      top: 62%;
       left: 0;
       width: 100%;
       height: 24px;
@@ -76,7 +82,6 @@
     "Roberta","Sander","Walter"
   ];
 
-  // ISO uge – skifter fredag kl. 07:00 dansk tid
   function getSeatWeek() {
     const now = new Date();
     const friday = new Date(now);
@@ -104,58 +109,3 @@
   const weekSeed = getSeatWeek().replace(/-/g, "");
   let shuffled = shuffle([...names], parseInt(weekSeed));
 
-  // Farver (3 af hver) – som i dit eksempel
-  const colors = ['#0000FF', '#FFFF00', '#FF0000', '#008000', '#808080', '#FFC0CB'];
-  let seatColors = [];
-  colors.forEach(color => {
-    for (let i = 0; i < 3; i++) {
-      seatColors.push(color);
-    }
-  });
-  seatColors = shuffle([...seatColors], parseInt(weekSeed));
-
-  // TAL TIL BÆLTERNE
-  const beltNumbers = [
-    1,2,3,4,5,6,7,8,9,10,11,
-    1,2,3,4,5,6,7,8,9,10,11
-  ];
-
-  const layout = [5,5,5,4,3];
-  const container = document.getElementById("seating");
-
-  let index = 0;
-  let colorIndex = 0;
-  let beltIndex = 0;
-
-  layout.forEach((size, rowIndex) => {
-    const row = document.createElement("div");
-    row.className = "row row-" + size;
-
-    for (let i = 0; i < size; i++) {
-      const seat = document.createElement("div");
-      seat.className = "seat";
-
-      // Navn
-      if (rowIndex === 0 && i === 4) {
-        seat.textContent = "Sarah";
-      } else {
-        seat.textContent = shuffled[index++];
-      }
-
-      // Farve
-      seat.style.backgroundColor = seatColors[colorIndex++];
-
-      // Sort bælte med tal
-      const belt = document.createElement("div");
-      belt.className = "belt";
-      belt.textContent = beltNumbers[beltIndex++];
-
-      seat.appendChild(belt);
-      row.appendChild(seat);
-    }
-    container.appendChild(row);
-  });
-</script>
-
-</body>
-</html>
