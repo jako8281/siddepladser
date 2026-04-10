@@ -1,18 +1,81 @@
-const colors = ['#87CEEB', '#FFFFE0', '#FFB6C6', '#90EE90', '#D3D3D3', '#FFB6C1'];
-const layout = [5,5,5,4,4];
-
-const seats = [];
-
-for (let color of colors) {
-    for (let i = 0; i < 3; i++) {
-        seats.push({color: color, name: `Seat ${seats.length + 1}`});
-    }
-}
-
-// Add 4 white empty seats
-for (let i = 0; i < 4; i++) {
-    seats.push({color: '#FFFFFF', name: ''});
-}
-
-// Log the seats for verification
-console.log(seats);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seating Arrangement</title>
+    <style>
+        body {
+            background-color: #D3D3D3;
+            color: #000;
+        }
+        .seat {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            display: inline-block;
+            text-align: center;
+            line-height: 50px;
+            font-weight: bold;
+        }
+        .empty {
+            background-color: #FFFFFF;
+        }
+        .light-blue {
+            background-color: #87CEEB;
+        }
+        .light-yellow {
+            background-color: #FFFFE0;
+        }
+        .light-red {
+            background-color: #FFB6C6;
+        }
+        .light-green {
+            background-color: #90EE90;
+        }
+        .light-pink {
+            background-color: #FFB6C1;
+        }
+        .row {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Seating Arrangement</h1>
+    <div class="row">
+        <div class="seat empty">1</div>
+        <div class="seat empty">2</div>
+        <div class="seat light-blue">3</div>
+        <div class="seat light-yellow">4</div>
+        <div class="seat light-red">5</div>
+        <div class="seat light-green">6</div>
+        <div class="seat light-pink">7</div>
+        <div class="seat light-blue">8</div>
+    </div>
+    <div class="row">
+        <div class="seat light-yellow">9</div>
+        <div class="seat empty">10</div>
+        <div class="seat light-red">11</div>
+        <div class="seat light-green">12</div>
+        <div class="seat light-pink">13</div>
+        <div class="seat light-blue">14</div>
+        <div class="seat empty">15</div>
+    </div>
+    <div class="row">
+        <div class="seat empty">16</div>
+        <div class="seat light-yellow">17</div>
+        <div class="seat light-red">18</div>
+        <div class="seat light-green">19</div>
+        <div class="seat light-pink">20</div>
+        <div class="seat light-blue">21</div>
+    </div>
+    <div class="row">
+        <div class="seat light-yellow">22</div>
+        <div class="seat light-red">23</div>
+        <div class="seat empty">24</div>
+        <div class="seat empty">25</div>
+    </div>
+</body>
+</html>
