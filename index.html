@@ -98,7 +98,10 @@
 
   /* DAGENS dato som seed → nye pladser hver dag */
   const todaySeed = new Date().toISOString().slice(0,10).replace(/-/g,"");
-  const shuffled = shuffle([...names], parseInt(todaySeed));
+  
+  /* Fjern Sarah og Kira fra shuffle-listen */
+  const namesToShuffle = names.filter(n => n !== "Sarah" && n !== "Kira");
+  const shuffled = shuffle([...namesToShuffle], parseInt(todaySeed));
 
   /* FASTE FARVER – 22 pladser */
   const seatColors = [
@@ -135,8 +138,15 @@
 
       const nameDiv = document.createElement("div");
       nameDiv.className = "name";
-      nameDiv.textContent =
-        (rowIndex === 0 && i === 4) ? "Sarah" : shuffled[nameIndex++];
+      
+      /* Fast plads for Sarah (row 0, position 4) og Kira (row 0, position 3) */
+      if (rowIndex === 0 && i === 4) {
+        nameDiv.textContent = "Sarah";
+      } else if (rowIndex === 0 && i === 3) {
+        nameDiv.textContent = "Kira";
+      } else {
+        nameDiv.textContent = shuffled[nameIndex++];
+      }
 
       const belt = document.createElement("div");
       belt.className = "belt";
